@@ -8,7 +8,6 @@ import {Response} from "express"
 @Controller("reservations")
 export class ReservationsController {
     constructor(private readonly reservationsService: ReservationsService) {}
-
     @Post()
     async create(@Body() createReservationDto: CreateReservationDto, @Res() res: Response) {
         const result = await this.reservationsService.create(createReservationDto)
@@ -29,6 +28,13 @@ export class ReservationsController {
             return res.status(HttpStatus.CREATED).json(response)
         }
     }
+
+    // @Get("test")
+    // async testPath(@Res() response: Response) {
+    //     response.json({
+    //         message: "ok",
+    //     })
+    // }
 
     @Get()
     async findAll(@Res() res: Response) {
