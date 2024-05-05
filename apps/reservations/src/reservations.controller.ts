@@ -1,8 +1,9 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete} from "@nestjs/common"
+import {Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Res, HttpStatus} from "@nestjs/common"
 import {ReservationsService} from "./reservations.service"
 import {CreateReservationDto} from "./reservations/dto/create-reservation.dto"
 import {UpdateReservationDto} from "./reservations/dto/update-reservation.dto"
 import {AbstractResponse, ErrorResponse} from "@app/common"
+import {Response} from "express"
 
 @Controller("reservations")
 export class ReservationsController {
@@ -14,21 +15,25 @@ export class ReservationsController {
     }
 
     @Get()
-    async findAll(): Promise<AbstractResponse> {
+    async findAll(@Res() res: Response) {
         const result = await this.reservationsService.findAll()
-        if (!result) {
+        console.log(result.length)
+        if (!result || result.length === 0) {
             const response = new ErrorResponse()
-            response.code = 200
+            response.code = HttpStatus.OK
             response.message = "Data not found"
             response.status = "Failed"
-            return response as any
-        }
-        const response = new AbstractResponse()
-        response.code = 200
-        response.data = result
-        response.status = "Success"
+            //return response as any
+            return res.status(HttpStatus.OK).json(response)
+        } else {
+            const response = new AbstractResponse({
+                code: res.statusCode,
+                data: result,
+                status: "Success",
+            })
 
-        return response as any
+            return res.status(HttpStatus.OK).json(response)
+        }
     }
 
     @Get(":id")
