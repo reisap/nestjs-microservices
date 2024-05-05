@@ -1,7 +1,7 @@
 # Nest JS Microservices
 
+## Command First Installation :
 ```
-
 //create apps in nest js
 > nest new [name apps]
 
