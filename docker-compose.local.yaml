@@ -1,0 +1,36 @@
+services:
+    reservations:
+        build:
+            context: .
+            dockerfile: "./apps/reservations/Dockerfile"
+            target: development
+        command: pnpm run start:dev reservations
+        container_name: reservations_services
+        environment:
+            - NODE_ENV=development
+        hostname: reservations
+        ports:
+            - "8000:3000"
+        volumes:
+            - .:/usr/src/app
+        env_file:
+            - .env
+        depends_on:
+            - db
+    db:
+        image: "mongo"
+        restart: unless-stopped
+        container_name: mongodb
+        hostname: db
+        ports:
+            - 27017:27017
+        env_file:
+            - .env
+        volumes:
+            - mongodata:/data/db
+            - mongodb_config:/data/configdb
+        command: mongod
+
+volumes:
+    mongodata:
+    mongodb_config:

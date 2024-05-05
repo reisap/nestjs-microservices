@@ -1,0 +1,9 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: "./apps/reservations/Dockerfile"
+            target: production
+        command: node dist/apps/reservations/main
+        environment:
+            - NODE_ENV=production
