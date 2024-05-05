@@ -10,7 +10,7 @@ async function bootstrap() {
         .setTitle("Reservation example")
         .setDescription("Reservation API description")
         .setVersion("1.0")
-        .addTag("reservation")
+        .addTag("reservation api")
         .build()
     const document = SwaggerModule.createDocument(app, config)
     SwaggerModule.setup("doc", app, document)
