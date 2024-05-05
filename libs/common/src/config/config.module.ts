@@ -1,6 +1,15 @@
 import {Module} from "@nestjs/common"
-import {ConfigModule as NestConfigModule} from "@nestjs/config"
+import {ConfigService, ConfigModule as NestConfigModule} from "@nestjs/config"
+import Joi from "joi"
 @Module({
-    imports: [NestConfigModule.forRoot()],
+    imports: [
+        NestConfigModule.forRoot({
+            validationSchema: Joi.object({
+                MONGODB_URI: Joi.string(),
+            }),
+        }),
+    ],
+    providers: [ConfigService],
+    exports: [ConfigService],
 })
 export class ConfigModule {}
