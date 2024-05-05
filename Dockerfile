@@ -1,12 +1,10 @@
-FROM node:22.1.0-bullseye-slim
+FROM node:22.1-bullseye
 
 WORKDIR /app
+COPY package.json .
 
-COPY . /app/
-
-RUN npm install -g pnpm
-RUN pnpm install
+RUN npm install
 
 COPY . .
 
-# CMD pnpm run start:dev
+CMD npm run start:dev

@@ -6,8 +6,8 @@ services:
         container_name: app
         hostname: app
         ports:
-            - "3000:3000"
-        command: "pnpm run start:dev"
+            - "8000:3000"
+        command: "npm run start:dev"
         volumes:
             - .:/app
         env_file:
