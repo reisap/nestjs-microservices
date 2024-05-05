@@ -1,19 +1,19 @@
 services:
-    app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: app
-        hostname: app
-        ports:
-            - "8000:3000"
-        command: "pnpm run start:dev"
-        volumes:
-            - .:/app
-        env_file:
-            - .env
-        depends_on:
-            - db
+    # app:
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile
+    #     container_name: app
+    #     hostname: app
+    #     ports:
+    #         - "8000:3000"
+    #     command: "pnpm run start:dev"
+    #     volumes:
+    #         - .:/app
+    #     env_file:
+    #         - .env
+    #     depends_on:
+    #         - db
     db:
         image: "mongo"
         restart: unless-stopped

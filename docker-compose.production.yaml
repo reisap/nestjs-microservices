@@ -1,9 +1,19 @@
 services:
-    app:
+    reservations:
         build:
             context: .
             dockerfile: "./apps/reservations/Dockerfile"
             target: production
         command: node dist/apps/reservations/main
+        container_name: reservations_services
         environment:
             - NODE_ENV=production
+        hostname: reservations
+        ports:
+            - "8000:3000"
+        volumes:
+            - .:/usr/src/app
+        env_file:
+            - .env
+        depends_on:
+            - db

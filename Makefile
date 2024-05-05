@@ -1,7 +1,7 @@
 start:
 	docker-compose -f docker-compose.local.yaml up
 start-prod:
-	docker-compose -f docker-compose.production.yaml up
+	docker-compose -f docker-compose.production.yaml -f docker-compose.yaml up
 start-qa:
 	docker-compose -f docker-compose.qa.yaml up
 build:
@@ -9,6 +9,6 @@ build:
 stop:
 	docker-compose down
 remove:
-	docker image rmi nestjs-microservices-app
+	docker image rmi nestjs-microservices
 
 .PHONY: start stop remove start-prod start-qa
