@@ -1,5 +1,5 @@
 export class CreateReservationDto {
-    startData: Date
+    startDate: Date
 
     endDate: Date
 

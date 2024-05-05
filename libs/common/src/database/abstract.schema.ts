@@ -5,8 +5,8 @@ import {SchemaTypes, Types} from "mongoose"
 export class AbstractDocument {
     @Prop({type: SchemaTypes.ObjectId})
     _id: Types.ObjectId
-    @Prop({type: Date, default: () => Date.now()})
-    create_at
-    @Prop({type: Date, default: () => Date.now()})
-    update_at
+    @Prop({type: Date, default: () => Date.now(), required: false})
+    create_at?
+    @Prop({type: Date, default: () => Date.now(), required: false})
+    update_at?
 }

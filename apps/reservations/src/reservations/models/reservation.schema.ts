@@ -9,11 +9,11 @@ export class ReservationDocument extends AbstractDocument {
     startDate: Date
     @Prop()
     endDate: Date
-    @Prop()
+    @Prop({required: true})
     userId: string
-    @Prop()
+    @Prop({required: true})
     placeId: string
-    @Prop()
+    @Prop({required: true})
     invoiceId: string
 }
 
