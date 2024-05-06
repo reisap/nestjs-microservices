@@ -7,7 +7,7 @@ start-qa:
 build:
 	docker-compose -f docker-compose.local.yaml build
 stop:
-	docker-compose down
+	docker-compose -f docker-compose.local.yaml down
 remove:
 	docker image rmi nestjs-microservices
 
