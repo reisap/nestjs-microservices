@@ -62,4 +62,7 @@
 > pnpm i -D @types/bcryptjs @types/express
 > pnpm i -S cookie-parser
 > pnpm i -D @types/cookie-parser
+
+//install package microservises
+> pnpm i -S @nestjs/microservices
 ```

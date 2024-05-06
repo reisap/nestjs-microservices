@@ -10,7 +10,7 @@ services:
             - NODE_ENV=development
         hostname: reservations
         ports:
-            - "8000:3000"
+            - "3000:3000"
         volumes:
             - .:/usr/src/app
         env_file:
@@ -28,7 +28,7 @@ services:
             - NODE_ENV=development
         hostname: auth
         ports:
-            - "8001:3001"
+            - "3001:3001"
         volumes:
             - .:/usr/src/app
         env_file:

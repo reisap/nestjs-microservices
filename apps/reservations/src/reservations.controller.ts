@@ -1,13 +1,15 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus} from "@nestjs/common"
+import {Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, UseGuards} from "@nestjs/common"
 import {ReservationsService} from "./reservations.service"
 import {CreateReservationDto} from "./reservations/dto/create-reservation.dto"
 import {UpdateReservationDto} from "./reservations/dto/update-reservation.dto"
-import {AbstractResponse, ErrorResponse} from "@app/common"
+import {AbstractResponse, ErrorResponse, JwtAuthGuard} from "@app/common"
 import {Response} from "express"
 
 @Controller("reservations")
 export class ReservationsController {
     constructor(private readonly reservationsService: ReservationsService) {}
+
+    @UseGuards(JwtAuthGuard)
     @Post()
     async create(@Body() createReservationDto: CreateReservationDto, @Res() res: Response) {
         try {
