@@ -6,12 +6,12 @@ import {ReservationsRepository} from "./reservations.repository"
 @Injectable()
 export class ReservationsService {
     constructor(private reservationRepository: ReservationsRepository) {}
-    create(createReservationDto: CreateReservationDto) {
+    create(createReservationDto: CreateReservationDto, userId: string) {
         // return "This action adds a new reservation"
         return this.reservationRepository.create({
             ...createReservationDto,
             timestamp: new Date(),
-            userId: "123",
+            userId: userId,
         })
     }
 

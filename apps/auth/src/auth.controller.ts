@@ -1,7 +1,7 @@
 import {Controller, Get, Post, Res, UseGuards} from "@nestjs/common"
 import {AuthService} from "./auth.service"
 import {LocalAuthGuard} from "./guards/local-auth.guard"
-import {CurrentUser} from "./current-user.decorator"
+import {CurrentUser} from "@app/common"
 import {UsersDocument} from "./users/models/users.schema"
 import {Response} from "express"
 import {JwtAuthGuard} from "./guards/jwt-auth.guards"

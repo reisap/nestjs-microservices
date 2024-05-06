@@ -2,7 +2,7 @@ import {Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, UseG
 import {ReservationsService} from "./reservations.service"
 import {CreateReservationDto} from "./reservations/dto/create-reservation.dto"
 import {UpdateReservationDto} from "./reservations/dto/update-reservation.dto"
-import {AbstractResponse, ErrorResponse, JwtAuthGuard} from "@app/common"
+import {AbstractResponse, CurrentUser, ErrorResponse, JwtAuthGuard, UserDto} from "@app/common"
 import {Response} from "express"
 
 @Controller("reservations")
@@ -11,9 +11,9 @@ export class ReservationsController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    async create(@Body() createReservationDto: CreateReservationDto, @Res() res: Response) {
+    async create(@Body() createReservationDto: CreateReservationDto, @CurrentUser() user: UserDto, @Res() res: Response) {
         try {
-            const result = await this.reservationsService.create(createReservationDto)
+            const result = await this.reservationsService.create(createReservationDto, user._id)
 
             const response = new AbstractResponse({
                 code: res.statusCode,
@@ -34,6 +34,7 @@ export class ReservationsController {
     //     })
     // }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     async findAll(@Res() res: Response) {
         const result = await this.reservationsService.findAll()
@@ -48,6 +49,7 @@ export class ReservationsController {
         return res.status(HttpStatus.OK).json(response)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(":id")
     async findOne(@Param("id") id: string, @Res() res: Response) {
         try {
@@ -69,6 +71,7 @@ export class ReservationsController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch(":id")
     async update(@Param("id") id: string, @Body() updateReservationDto: UpdateReservationDto, @Res() res: Response) {
         try {
@@ -91,6 +94,7 @@ export class ReservationsController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(":id")
     async remove(@Param("id") id: string, @Res() res: Response) {
         try {
