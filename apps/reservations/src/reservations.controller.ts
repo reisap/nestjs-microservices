@@ -1,9 +1,11 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, UseGuards} from "@nestjs/common"
+import {Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, UseGuards, UnprocessableEntityException} from "@nestjs/common"
 import {ReservationsService} from "./reservations.service"
 import {CreateReservationDto} from "./reservations/dto/create-reservation.dto"
 import {UpdateReservationDto} from "./reservations/dto/update-reservation.dto"
 import {AbstractResponse, CurrentUser, ErrorResponse, JwtAuthGuard, UserDto} from "@app/common"
 import {Response} from "express"
+import {error} from "console"
+import {UnsubscriptionError} from "rxjs"
 
 @Controller("reservations")
 export class ReservationsController {
@@ -15,6 +17,10 @@ export class ReservationsController {
         return this.reservationsService.create(createReservationDto, user)
         // try {
         //     const result = await this.reservationsService.create(createReservationDto, user)
+        //     if (!result) {
+        //         throw new UnprocessableEntityException("Error Reservations")
+        //         return
+        //     }
 
         //     const response = new AbstractResponse({
         //         code: res.statusCode,

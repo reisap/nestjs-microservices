@@ -1,23 +1,23 @@
-import {Injectable} from "@nestjs/common"
+import {Injectable, Inject} from "@nestjs/common"
 import {ConfigService} from "@nestjs/config"
 import Stripe from "stripe"
 import {PaymentsCreateChargeDto} from "./dto/payments-create-charge.dto"
-// import {NOTIFICATIONS_SERVICE} from "@app/common"
-// import {ClientProxy} from "@nestjs/microservices"
+import {NOTIFICATIONS_SERVICE} from "@app/common"
+import {ClientProxy} from "@nestjs/microservices"
 
 @Injectable()
 export class PaymentsService {
-    private readonly stripe = new Stripe(
-        "sk_test_51PDSNrRt43KF6KMqKblHhtcn87HLDR8zx6kaVcme1x3N74F8LUOugp2PW17rw0Jopvt9YTQhT3jBJJYZHnyGeqfv00XBvO2JU4",
-        {
-            apiVersion: "2024-04-10",
-            typescript: true,
-        },
-    )
+    private readonly stripe = new Stripe(this.configService.get("STRIPE_SECRET_KEY"), {
+        apiVersion: "2024-04-10",
+    })
 
-    constructor(private readonly configService: ConfigService) {}
+    constructor(
+        private readonly configService: ConfigService,
+        @Inject(NOTIFICATIONS_SERVICE)
+        private readonly notificationsService: ClientProxy,
+    ) {}
 
-    async createCharge({card, amount}: PaymentsCreateChargeDto) {
+    async createCharge({card, amount, email}: PaymentsCreateChargeDto) {
         const paymentMethod = await this.stripe.paymentMethods.create({
             type: "card",
             card,
@@ -30,10 +30,10 @@ export class PaymentsService {
             payment_method_types: ["card"],
             currency: "usd",
         })
-        // this.notificationsService.emit("notify_email", {
-        //     email,
-        //     text: `Your payment of $${amount} has completed successfully.`,
-        // })
+        this.notificationsService.emit("notify_email", {
+            email,
+            text: `Your payment of $${amount} has completed successfully.`,
+        })
 
         return paymentIntent
     }
