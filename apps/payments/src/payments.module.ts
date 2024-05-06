@@ -3,6 +3,7 @@ import {PaymentsController} from "./payments.controller"
 import {PaymentsService} from "./payments.service"
 import * as Joi from "joi"
 import {ConfigModule} from "@nestjs/config"
+import {LoggerModule} from "@app/common"
 
 @Module({
     imports: [
@@ -10,8 +11,10 @@ import {ConfigModule} from "@nestjs/config"
             isGlobal: true,
             validationSchema: Joi.object({
                 PORT: Joi.number().required(),
+                STRIPE_SECRET_KEY: Joi.string().required(),
             }),
         }),
+        LoggerModule,
     ],
     controllers: [PaymentsController],
     providers: [PaymentsService],

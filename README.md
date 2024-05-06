@@ -73,6 +73,9 @@
 //create payment use Stripe
 > nest g app payments
 
+//intall stripe library
+> pnpm i -S stripe
+
 ```
 
 ## Part 4 Microservices Notifications
