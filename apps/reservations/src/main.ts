@@ -22,6 +22,7 @@ async function bootstrap() {
             whitelist: true,
         }),
     )
+    app.enableCors()
     app.useLogger(app.get(Logger))
     app.use(compression())
     app.use(

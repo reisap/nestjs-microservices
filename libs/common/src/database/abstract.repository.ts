@@ -1,7 +1,7 @@
 import {FilterQuery, Model, Types, UpdateQuery} from "mongoose"
 import {AbstractDocument} from "./abstract.schema"
-// import {Logger, NotFoundException} from "@nestjs/common"
-import {Logger} from "@nestjs/common"
+import {Logger, NotFoundException} from "@nestjs/common"
+//import {Logger} from "@nestjs/common"
 import {CreateIndexesOptions} from "mongodb"
 
 export abstract class AbstractRepository<TDocument extends AbstractDocument> {
@@ -18,8 +18,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
 
         if (!result) {
             this.logger.warn("Document can not save", document)
-            //throw new NotFoundException("Document not found")
-            return null
+            throw new NotFoundException("Document not found")
+            //return null
         }
         return document as TDocument
     }
@@ -29,8 +29,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
 
         if (!document) {
             this.logger.warn("Document not found with fillterQuery", filterQuery)
-            //throw new NotFoundException("Document not found")
-            return null
+            throw new NotFoundException("Document not found")
+            // return null
         }
         return document as TDocument
     }
@@ -43,8 +43,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
 
         if (!document) {
             this.logger.warn("Document not found with fillterQuery", filterQuery)
-            //throw new NotFoundException("Document not found")
-            return null
+            throw new NotFoundException("Document not found")
+            //return null
         }
         return document as TDocument
     }
@@ -59,8 +59,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
         const document = await this.model.findOneAndDelete(filterQuery).lean<TDocument>(true)
         if (!document) {
             this.logger.warn("Document not found with fillterQuery", filterQuery)
-            //throw new NotFoundException("Document not found")
-            return null
+            throw new NotFoundException("Document not found")
+            //return null
         }
         return document as TDocument
         //return await this.model.findOneAndDelete(fillterQuery, {lean: true})

@@ -11,22 +11,14 @@ export class ReservationsController {
     @Post()
     async create(@Body() createReservationDto: CreateReservationDto, @Res() res: Response) {
         const result = await this.reservationsService.create(createReservationDto)
-        if (!result) {
-            const response = new ErrorResponse()
-            response.code = HttpStatus.BAD_REQUEST
-            response.message = "Data not found"
-            response.status = "Failed"
-            //return response as any
-            return res.status(HttpStatus.BAD_REQUEST).json(response)
-        } else {
-            const response = new AbstractResponse({
-                code: res.statusCode,
-                data: result,
-                status: "Success",
-            })
 
-            return res.status(HttpStatus.CREATED).json(response)
-        }
+        const response = new AbstractResponse({
+            code: res.statusCode,
+            data: result,
+            status: "Success",
+        })
+
+        return res.status(HttpStatus.CREATED).json(response)
     }
 
     // @Get("test")
@@ -40,35 +32,20 @@ export class ReservationsController {
     async findAll(@Res() res: Response) {
         const result = await this.reservationsService.findAll()
         console.log(result.length)
-        if (!result || result.length === 0) {
-            const response = new ErrorResponse()
-            response.code = HttpStatus.NOT_FOUND
-            response.message = "Data not found"
-            response.status = "Failed"
-            //return response as any
-            return res.status(HttpStatus.NOT_FOUND).json(response)
-        } else {
-            const response = new AbstractResponse({
-                code: res.statusCode,
-                data: result,
-                status: "Success",
-            })
 
-            return res.status(HttpStatus.OK).json(response)
-        }
+        const response = new AbstractResponse({
+            code: res.statusCode,
+            data: result,
+            status: "Success",
+        })
+
+        return res.status(HttpStatus.OK).json(response)
     }
 
     @Get(":id")
     async findOne(@Param("id") id: string, @Res() res: Response) {
-        const result = await this.reservationsService.findOne(id)
-        if (!result || result === null) {
-            const response = new ErrorResponse()
-            response.code = HttpStatus.NOT_FOUND
-            response.message = "Data not found"
-            response.status = "Failed"
-            //return response as any
-            return res.status(HttpStatus.NOT_FOUND).json(response)
-        } else {
+        try {
+            const result = await this.reservationsService.findOne(id)
             const response = new AbstractResponse({
                 code: res.statusCode,
                 data: result,
@@ -76,20 +53,21 @@ export class ReservationsController {
             })
 
             return res.status(HttpStatus.OK).json(response)
+        } catch (error) {
+            const response = new ErrorResponse()
+            response.code = HttpStatus.NOT_FOUND
+            response.message = "Not found"
+            response.status = "Failed"
+            //return response as any
+            return res.status(HttpStatus.NOT_FOUND).json(response)
         }
     }
 
     @Patch(":id")
     async update(@Param("id") id: string, @Body() updateReservationDto: UpdateReservationDto, @Res() res: Response) {
-        const result = await this.reservationsService.update(id, updateReservationDto)
-        if (!result || result === null) {
-            const response = new ErrorResponse()
-            response.code = HttpStatus.NOT_FOUND
-            response.message = "Data not found"
-            response.status = "Failed"
-            //return response as any
-            return res.status(HttpStatus.NOT_FOUND).json(response)
-        } else {
+        try {
+            const result = await this.reservationsService.update(id, updateReservationDto)
+
             const response = new AbstractResponse({
                 code: res.statusCode,
                 data: result,
@@ -97,20 +75,21 @@ export class ReservationsController {
             })
 
             return res.status(HttpStatus.OK).json(response)
+        } catch (e) {
+            const response = new ErrorResponse()
+            response.code = HttpStatus.NOT_FOUND
+            response.message = "Not found"
+            response.status = "Failed"
+            //return response as any
+            return res.status(HttpStatus.NOT_FOUND).json(response)
         }
     }
 
     @Delete(":id")
     async remove(@Param("id") id: string, @Res() res: Response) {
-        const result = await this.reservationsService.remove(id)
-        if (!result || result === null) {
-            const response = new ErrorResponse()
-            response.code = HttpStatus.NOT_FOUND
-            response.message = "Data not found"
-            response.status = "Failed"
-            //return response as any
-            return res.status(HttpStatus.NOT_FOUND).json(response)
-        } else {
+        try {
+            const result = await this.reservationsService.remove(id)
+
             const response = new AbstractResponse({
                 code: res.statusCode,
                 data: result,
@@ -118,6 +97,13 @@ export class ReservationsController {
             })
 
             return res.status(HttpStatus.OK).json(response)
+        } catch (e) {
+            const response = new ErrorResponse()
+            response.code = HttpStatus.NOT_FOUND
+            response.message = "Not found"
+            response.status = "Failed"
+            //return response as any
+            return res.status(HttpStatus.NOT_FOUND).json(response)
         }
     }
 }
