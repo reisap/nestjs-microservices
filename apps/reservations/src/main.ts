@@ -8,21 +8,23 @@ import {Logger} from "nestjs-pino"
 
 async function bootstrap() {
     const app = await NestFactory.create(ReservationsModule)
-    const config = new DocumentBuilder()
-        .setTitle("Reservation example")
-        .setDescription("Reservation API description")
-        .setVersion("1.0")
-        .addTag("reservation api")
-        .build()
-    const document = SwaggerModule.createDocument(app, config)
-    SwaggerModule.setup("doc", app, document)
+    if (process.env.NODE_ENV === "development") {
+        const config = new DocumentBuilder()
+            .setTitle("Reservation example")
+            .setDescription("Reservation API description")
+            .setVersion("1.0")
+            .addTag("reservation api")
+            .build()
+        const document = SwaggerModule.createDocument(app, config)
+        SwaggerModule.setup("doc", app, document)
+    }
 
     app.useGlobalPipes(
         new ValidationPipe({
             whitelist: true,
         }),
     )
-    app.enableCors()
+    // app.enableCors()
     app.useLogger(app.get(Logger))
     app.use(compression())
     app.use(

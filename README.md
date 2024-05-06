@@ -31,3 +31,20 @@
 > nest g module logger -p common
 
 ```
+
+## Part 2 Microservices Auth
+
+```
+//create new app for microservice
+> nest g app auth
+
+//create new module users
+> nest g module users
+
+//create controller user
+> nest g controller users
+
+//create services user
+> nest g service users
+
+```

@@ -1,18 +1,17 @@
 import {Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus} from "@nestjs/common"
-import {ReservationsService} from "./reservations.service"
-import {CreateReservationDto} from "./reservations/dto/create-reservation.dto"
-import {UpdateReservationDto} from "./reservations/dto/update-reservation.dto"
+import {CreateUserDto} from "./dto/create-user.dto"
+import {UsersService} from "./users.service"
 import {AbstractResponse, ErrorResponse} from "@app/common"
 import {Response} from "express"
+import {UpdateUserDto} from "./dto/update-user.dto"
 
-@Controller("reservations")
-export class ReservationsController {
-    constructor(private readonly reservationsService: ReservationsService) {}
+@Controller("users")
+export class UsersController {
+    constructor(private readonly userService: UsersService) {}
     @Post()
-    async create(@Body() createReservationDto: CreateReservationDto, @Res() res: Response) {
+    async createUser(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
         try {
-            const result = await this.reservationsService.create(createReservationDto)
-
+            const result = await this.userService.create(createUserDto)
             const response = new AbstractResponse({
                 code: res.statusCode,
                 data: result,
@@ -25,16 +24,9 @@ export class ReservationsController {
         }
     }
 
-    // @Get("test")
-    // async testPath(@Res() response: Response) {
-    //     response.json({
-    //         message: "ok",
-    //     })
-    // }
-
     @Get()
     async findAll(@Res() res: Response) {
-        const result = await this.reservationsService.findAll()
+        const result = await this.userService.findAll()
         console.log(result.length)
 
         const response = new AbstractResponse({
@@ -49,7 +41,7 @@ export class ReservationsController {
     @Get(":id")
     async findOne(@Param("id") id: string, @Res() res: Response) {
         try {
-            const result = await this.reservationsService.findOne(id)
+            const result = await this.userService.findOne(id)
             const response = new AbstractResponse({
                 code: res.statusCode,
                 data: result,
@@ -68,9 +60,9 @@ export class ReservationsController {
     }
 
     @Patch(":id")
-    async update(@Param("id") id: string, @Body() updateReservationDto: UpdateReservationDto, @Res() res: Response) {
+    async update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto, @Res() res: Response) {
         try {
-            const result = await this.reservationsService.update(id, updateReservationDto)
+            const result = await this.userService.update(id, updateUserDto)
 
             const response = new AbstractResponse({
                 code: res.statusCode,
@@ -92,7 +84,7 @@ export class ReservationsController {
     @Delete(":id")
     async remove(@Param("id") id: string, @Res() res: Response) {
         try {
-            const result = await this.reservationsService.remove(id)
+            const result = await this.userService.remove(id)
 
             const response = new AbstractResponse({
                 code: res.statusCode,
