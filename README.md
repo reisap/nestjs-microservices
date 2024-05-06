@@ -27,4 +27,7 @@
 //create transport layer in microservices
 > nest g resource reservations
 
+//create global logger
+> nest g module logger -p common
+
 ```
