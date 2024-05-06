@@ -5,6 +5,7 @@ import helmet from "helmet"
 import {SwaggerModule, DocumentBuilder} from "@nestjs/swagger"
 import {ValidationPipe} from "@nestjs/common"
 import {Logger} from "nestjs-pino"
+import {ConfigService} from "@nestjs/config"
 
 async function bootstrap() {
     const app = await NestFactory.create(ReservationsModule)
@@ -32,6 +33,8 @@ async function bootstrap() {
             contentSecurityPolicy: false,
         }),
     )
+    const configService = app.get(ConfigService)
+    await app.listen(configService.get("PORT"))
     await app.listen(3000)
 }
 bootstrap()

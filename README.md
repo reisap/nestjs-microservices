@@ -47,4 +47,18 @@
 //create services user
 > nest g service users
 
+//update npm for password using passport
+> pnpm i -S @nestjs/passport passport passport-local
+> pnpm i -D @types/passport-local
+
+//jwt auth
+> pnpm i -S @nestjs/jwt passport-jwt
+> pnpm i -D @types/passport-jwt
+
+//hash password
+> pnpm i -S bcrypt
+> pnpm i -D @types/bcrypt
+> pnpm i -S bcryptjs express
+> pnpm i -D @types/bcryptjs @types/express
+
 ```
