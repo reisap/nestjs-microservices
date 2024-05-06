@@ -11,20 +11,21 @@ export class ReservationsController {
 
     @UseGuards(JwtAuthGuard)
     @Post()
-    async create(@Body() createReservationDto: CreateReservationDto, @CurrentUser() user: UserDto, @Res() res: Response) {
-        try {
-            const result = await this.reservationsService.create(createReservationDto, user._id)
+    async create(@Body() createReservationDto: CreateReservationDto, @CurrentUser() user: UserDto) {
+        return this.reservationsService.create(createReservationDto, user)
+        // try {
+        //     const result = await this.reservationsService.create(createReservationDto, user)
 
-            const response = new AbstractResponse({
-                code: res.statusCode,
-                data: result,
-                status: "Success",
-            })
+        //     const response = new AbstractResponse({
+        //         code: res.statusCode,
+        //         data: result,
+        //         status: "Success",
+        //     })
 
-            return res.status(HttpStatus.CREATED).json(response)
-        } catch (e) {
-            return res.json(e)
-        }
+        //     return res.status(HttpStatus.CREATED).json(response)
+        // } catch (e) {
+        //     return res.json(e)
+        // }
     }
 
     // @Get("test")

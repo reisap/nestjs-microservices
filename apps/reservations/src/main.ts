@@ -31,11 +31,11 @@ async function bootstrap() {
     // app.enableCors()
     app.useLogger(app.get(Logger))
     app.use(compression())
-    app.use(
-        helmet({
-            contentSecurityPolicy: false,
-        }),
-    )
+    // app.use(
+    //     helmet({
+    //         contentSecurityPolicy: false,
+    //     }),
+    //)
     const configService = app.get(ConfigService)
     await app.listen(configService.get("PORT"))
 }
