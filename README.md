@@ -66,3 +66,13 @@
 //install package microservises
 > pnpm i -S @nestjs/microservices
 ```
+
+## Part 3 Microservices Payment
+
+```
+//create payment use Stripe
+> nest g app payments
+
+```
+
+## Part 4 Microservices Notifications

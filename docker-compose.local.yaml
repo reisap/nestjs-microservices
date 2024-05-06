@@ -17,6 +17,7 @@ services:
             - ./apps/reservations/.env
         depends_on:
             - db
+            - rabbitmq
     auth:
         build:
             context: .
@@ -35,6 +36,45 @@ services:
             - ./apps/auth/.env
         depends_on:
             - db
+            - rabbitmq
+    payments:
+        build:
+            context: .
+            dockerfile: "./apps/payments/Dockerfile"
+            target: development
+        command: pnpm run start:dev payments
+        container_name: payments_services
+        environment:
+            - NODE_ENV=development
+        hostname: payments
+        ports:
+            - "3003:3003"
+        volumes:
+            - .:/usr/src/app
+        env_file:
+            - ./apps/payments/.env
+        depends_on:
+            - db
+            - rabbitmq
+    notifications:
+        build:
+            context: .
+            dockerfile: "./apps/notifications/Dockerfile"
+            target: development
+        command: pnpm run start:dev notifications
+        container_name: notifications_services
+        environment:
+            - NODE_ENV=development
+        hostname: notifications
+        ports:
+            - "3004:3004"
+        volumes:
+            - .:/usr/src/app
+        env_file:
+            - ./apps/notifications/.env
+        depends_on:
+            - db
+            - rabbitmq
     db:
         image: "mongo"
         restart: unless-stopped
@@ -48,6 +88,13 @@ services:
             - mongodata:/data/db
             - mongodb_config:/data/configdb
         command: mongod
+    rabbitmq:
+        image: rabbitmq
+        restart: unless-stopped
+        container_name: rabbitmq
+        hostname: rabbitmq
+        ports:
+            - 5672:5672
 
 volumes:
     mongodata:
