@@ -26,16 +26,20 @@ export class UsersController {
 
     @Get()
     async findAll(@Res() res: Response) {
-        const result = await this.userService.findAll()
-        console.log(result.length)
+        try {
+            const result = await this.userService.findAll()
+            console.log(result.length)
 
-        const response = new AbstractResponse({
-            code: res.statusCode,
-            data: result,
-            status: "Success",
-        })
+            const response = new AbstractResponse({
+                code: res.statusCode,
+                data: result,
+                status: "Success",
+            })
 
-        return res.status(HttpStatus.OK).json(response)
+            return res.status(HttpStatus.OK).json(response)
+        } catch (e) {
+            return res.json(e)
+        }
     }
 
     @Get(":id")

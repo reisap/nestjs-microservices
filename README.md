@@ -60,5 +60,6 @@
 > pnpm i -D @types/bcrypt
 > pnpm i -S bcryptjs express
 > pnpm i -D @types/bcryptjs @types/express
-
+> pnpm i -S cookie-parser
+> pnpm i -D @types/cookie-parser
 ```
